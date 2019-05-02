@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Jelly GUI</title>
+        <link rel="stylesheet" type="text/css" href="assets/normalize.css">
+        <link rel="stylesheet" type="text/css" href="assets/skeleton.css">
+        <link rel="stylesheet" type="text/css" href="assets/custom.css">
+        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="assets/roslib.min.js"></script>
+        <script src="assets/script.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row title">
+                <h1>jelly</h1>
+            </div>
+            <div class="row">
+                <div class="six columns">
+                    <button id="rolling_button" class="button-primary">Rolling Mode</button>
+                </div>
+                <div class="six columns">
+                    <button id="walking_button">Walking Mode</button>
+                </div>
+            </div>
+            <div class="row panel" id="rolling_panel">
+                <div class="row">
+                    <span class="control">
+                        <i class="far fa-arrow-alt-circle-up fa-7x"></i>
+                    </span>
+                </div>
+                <div class="row">
+                    <span class="control">
+                        <i class="far fa-stop-circle fa-7x"></i>
+                    </span>
+                </div>
+                <div class="row">
+                    <span class="control">
+                        <i class="far fa-arrow-alt-circle-down fa-7x"></i>
+                    </span>
+                </div>
+
+            </div>
+            <div class="row panel" id="walking_panel">
+                <div class="row">
+                    <span class="control">
+                        <i class="far fa-arrow-alt-circle-up fa-7x"></i>
+                    </span>
+                </div>
+                <div class="row">
+                    <span class="control">
+                        <i class="fas fa-undo fa-6x"></i>
+                        <i class="far fa-stop-circle fa-7x"></i>
+                        <i class="fas fa-redo fa-6x"></i>
+                    </span>
+                </div>
+                <div class="row">
+                    <span class="control">
+                        <i class="far fa-arrow-alt-circle-down fa-7x"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
