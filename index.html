@@ -9,6 +9,7 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="assets/roslib.min.js"></script>
+        <script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
         <script src="assets/script.js"></script>
     </head>
     <body>
@@ -27,17 +28,17 @@
             <div class="row panel" id="rolling_panel">
                 <div class="row">
                     <span class="control">
-                        <i class="far fa-arrow-alt-circle-up fa-7x"></i>
+                        <i id="roll_forward" class="far fa-arrow-alt-circle-up fa-7x"></i>
                     </span>
                 </div>
                 <div class="row">
                     <span class="control">
-                        <i class="far fa-stop-circle fa-7x"></i>
+                        <i id="roll_stop" class="far fa-stop-circle fa-7x"></i>
                     </span>
                 </div>
                 <div class="row">
                     <span class="control">
-                        <i class="far fa-arrow-alt-circle-down fa-7x"></i>
+                        <i id="roll_back" class="far fa-arrow-alt-circle-down fa-7x"></i>
                     </span>
                 </div>
 
@@ -45,19 +46,19 @@
             <div class="row panel" id="walking_panel">
                 <div class="row">
                     <span class="control">
-                        <i class="far fa-arrow-alt-circle-up fa-7x"></i>
+                        <i id="walk_forward" class="far fa-arrow-alt-circle-up fa-7x"></i>
                     </span>
                 </div>
                 <div class="row">
                     <span class="control">
-                        <i class="fas fa-undo fa-6x"></i>
-                        <i class="far fa-stop-circle fa-7x"></i>
-                        <i class="fas fa-redo fa-6x"></i>
+                        <i id="walk_left" class="fas fa-undo fa-6x"></i>
+                        <i id="walk_stop" class="far fa-stop-circle fa-7x"></i>
+                        <i id="walk_right" class="fas fa-redo fa-6x"></i>
                     </span>
                 </div>
                 <div class="row">
                     <span class="control">
-                        <i class="far fa-arrow-alt-circle-down fa-7x"></i>
+                        <i id="walk_back" class="far fa-arrow-alt-circle-down fa-7x"></i>
                     </span>
                 </div>
             </div>
