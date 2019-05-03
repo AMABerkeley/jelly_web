@@ -11,11 +11,21 @@ body {
 .title {
   text-align: center;
 }
+#button_row .columns{
+  text-align: center;
+}
+#rolling_button {
+  float: left;
+}
 #walking_button {
   float: right;
 }
 
 #rolling_panel {
+  display: none;
+  text-align: center;
+}
+#standing_panel {
   text-align: center;
 }
 #walking_panel {
@@ -37,3 +47,6 @@ body {
   background-color: #777;
 }
 
+#urdf {
+  text-align: center;
+}

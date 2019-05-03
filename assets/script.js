@@ -3,23 +3,39 @@ $(document).ready(function() {
     $("#rolling_button").on("click", function() {
         console.log("clicked rolling button");
         if ($(this).hasClass("button-primary")) {
-            console.log("already active");
         } else {
             $("#rolling_panel").show();
+            $("#standing_panel").hide();
             $("#walking_panel").hide();
-            $(this).toggleClass("button-primary");
-            $("#walking_button").toggleClass("button-primary");
+            $(this).addClass("button-primary");
+            $("#standing_button").removeClass("button-primary");
+            $("#walking_button").removeClass("button-primary");
         }
     });
+    $("#standing_button").on("click", function() {
+        console.log("clicked standing button");
+        if ($(this).hasClass("button-primary")) {
+        } else {
+            $("#rolling_panel").hide();
+            $("#standing_panel").show();
+            $("#walking_panel").hide();
+            $("#rolling_button").removeClass("button-primary");
+            $(this).addClass("button-primary");
+            $("#walking_button").removeClass("button-primary");
+        }
+    });
+
     $("#walking_button").on("click", function() {
         console.log("clicked walking button");
         if ($(this).hasClass("button-primary")) {
 
         } else {
             $("#rolling_panel").hide();
+            $("#standing_panel").hide();
             $("#walking_panel").show();
-            $(this).toggleClass("button-primary");
-            $("#rolling_button").toggleClass("button-primary");
+            $("#rolling_button").removeClass("button-primary");
+            $("#standing_button").removeClass("button-primary");
+            $(this).addClass("button-primary");
         }
     });
 

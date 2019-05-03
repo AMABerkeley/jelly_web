@@ -22,11 +22,14 @@
             <div class="row title">
                 <h1>jelly</h1>
             </div>
-            <div class="row">
-                <div class="six columns">
-                    <button id="rolling_button" class="button-primary">Rolling Mode</button>
+            <div class="row" id="button_row">
+                <div class="four columns">
+                    <button id="rolling_button">Rolling Mode</button>
                 </div>
-                <div class="six columns">
+                <div class="four columns">
+                    <button id="standing_button" class="button-primary">Standing Mode</button>
+               </div>
+                <div class="four columns">
                     <button id="walking_button">Walking Mode</button>
                 </div>
             </div>
@@ -47,6 +50,15 @@
                     </span>
                 </div>
 
+            </div>
+            <div class="row panel" id="standing_panel">
+                <div class="row">
+                    <span class="control">
+                        <i id="stand_left" class="fas fa-undo fa-6x"></i>
+                        <i id="stand_stop" class="far fa-stop-circle fa-7x"></i>
+                        <i id="stand_right" class="fas fa-redo fa-6x"></i>
+                    </span>
+                </div>
             </div>
             <div class="row panel" id="walking_panel">
                 <div class="row">
