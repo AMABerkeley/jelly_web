@@ -34,28 +34,29 @@ $(document).ready(function() {
     ros.on('connection', function() {
         console.log('Connection made!');
     });
-    ros.on('close', function() {
+    ros.on('close', function(e) {
         console.log('Connection closed.');
+        console.log(e);
     });
     // Create a connection to the rosbridge WebSocket server.
     ros.connect('ws://localhost:9090');
 
-    var control = new ROSLIB.Topic({
-        ros : ros,
-        name : '/jelly',
-        messageType : 'std_msgs/String'
-    });
-
-
-    $(".control i").on("click", function() {
-        command = $(this).attr("id");
-        console.log(command);
+    setInterval(function() {
+        var control = new ROSLIB.Topic({
+            ros : ros,
+            name : '/jelly',
+            messageType : 'std_msgs/String'
+        });
         var message = new ROSLIB.Message({
             data : command
         });
+
+        $(".control i").on("click", function() {
+            command = $(this).attr("id");
+            console.log(command);
+        });
         control.publish(message);
-    });
+    }, 100);
 
 });
-
 
