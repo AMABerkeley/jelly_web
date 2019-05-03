@@ -44,7 +44,7 @@ $(document).ready(function() {
     setInterval(function() {
         var control = new ROSLIB.Topic({
             ros : ros,
-            name : '/jelly',
+            name : '/jelly_gui/command',
             messageType : 'std_msgs/String'
         });
         var message = new ROSLIB.Message({
@@ -58,5 +58,35 @@ $(document).ready(function() {
         control.publish(message);
     }, 100);
 
+    // Create the main viewer.
+    var viewer = new ROS3D.Viewer({
+        divID : 'urdf',
+        width : 800,
+        height : 600,
+        antialias : true
+    });
+
+    // Add a grid
+    viewer.addObject(new ROS3D.Grid());
+
+    // Setup a client to listen to TFs.
+    var tfClient = new ROSLIB.TFClient({
+        ros : ros,
+        angularThres : 0.01,
+        transThres : 0.01,
+        rate : 10.0
+    });
+
+    // Setup the URDF client.
+    var urdfClient = new ROS3D.UrdfClient({
+        ros : ros,
+        tfClient : tfClient,
+        // path : 'https://raw.githubusercontent.com/AMABerkeley/jelly_descriptions/master/',
+        path : 'http://localhost:8080/jelly_descriptions/',
+        rootObject : viewer.scene,
+        loader : ROS3D.COLLADA_LOADER_2
+    });
+
 });
+
 

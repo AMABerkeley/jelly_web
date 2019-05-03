@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/AMABerkeley/jelly_web#readme",
   "dependencies": {
+    "connect": "^3.6.6",
     "eventemitter2": "^5.0.1",
-    "roslib": "^1.0.1"
+    "express": "^4.16.4",
+    "roslib": "^1.0.1",
+    "serve-static": "^1.13.2"
   }
 }

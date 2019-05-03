@@ -2,15 +2,20 @@
 <html>
     <head>
         <title>Jelly GUI</title>
-        <link rel="stylesheet" type="text/css" href="assets/normalize.css">
-        <link rel="stylesheet" type="text/css" href="assets/skeleton.css">
-        <link rel="stylesheet" type="text/css" href="assets/custom.css">
-        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <script src="assets/roslib.min.js"></script>
-        <script src="https://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
-        <script src="assets/script.js"></script>
+        <link rel="stylesheet" type="text/css" href="./assets/css/normalize.css">
+        <link rel="stylesheet" type="text/css" href="./assets/css/skeleton.css">
+        <link rel="stylesheet" type="text/css" href="./assets/css/custom.css">
+        <link rel="stylesheet" type="text/css" href="./assets/css/all.min.css">
+
+        <script src="./assets/lib/roslib.min.js"></script>
+        <script src="./assets/lib/three.min.js"></script>
+        <script src="https://static.robotwebtools.org/ros3djs/0.18.0/ColladaLoader.js"></script>
+        <!-- <script src="./assets/lib/ColladaLoader.js"></script> -->
+        <script src="./assets/lib/ros3d.min.js"></script>
+        <script src="./assets/lib/STLLoader.js"></script>
+        <script src="./assets/lib/jquery-3.4.1.min.js"></script>
+        <script src="./assets/lib/eventemitter2.min.js"></script>
+        <script src="./assets/script.js"></script>
     </head>
     <body>
         <div class="container">
@@ -62,6 +67,9 @@
                     </span>
                 </div>
             </div>
+            <br/>
+            <div class="row title"><h2>urdf</h2></div>
+            <div id="urdf"></div>
         </div>
     </body>
 </html>
