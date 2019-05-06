@@ -21,6 +21,14 @@ body {
   float: right;
 }
 
+#log {
+  text-align: center;
+}
+
+#log p {
+  margin: 1rem;
+}
+
 #rolling_panel {
   display: none;
   text-align: center;
@@ -31,6 +39,10 @@ body {
 #walking_panel {
   display: none;
   text-align: center;
+}
+
+.icon-invisible {
+  visibility: hidden;
 }
 
 .control {
