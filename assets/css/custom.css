@@ -41,6 +41,17 @@ body {
   text-align: center;
 }
 
+.crab_button {
+  /* width: 150px; */
+}
+.reverse_crab {
+  float: left;
+}
+.crab {
+  float: right;
+}
+
+
 .icon-invisible {
   visibility: hidden;
 }
@@ -62,3 +73,13 @@ body {
 #urdf {
   text-align: center;
 }
+
+#debug {
+  margin-top: 5vh;
+  text-align: center;
+}
+
+#debug p {
+  margin: auto;
+}
+

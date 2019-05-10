@@ -1,14 +1,15 @@
 var command = "stand_stop";
+var crab_command = "crab";
 var command_to_sentence = {
     "stand_stop": "I am standing still.",
     "stand_left": "I am twisting to the left.",
-    "stand_right": "I am twisting to the right",
+    "stand_right": "I am twisting to the right.",
     "roll_forward": "I am rolling forward.",
     "roll_forward_fast": "I am rolling forward faster.",
     "roll_back": "I am rolling backwards.",
     "roll_back_fast": "I am rolling backwards faster.",
     "roll_stop": "I am not rolling now.",
-    "walk_forward": "I am walking forward.",
+    "walk_forward": "I am walking forwards.",
     "walk_back": "I am walking backwards.",
     "walk_left": "I am walking to the left.",
     "walk_right": "I am walking to the right.",
@@ -21,9 +22,19 @@ var command_to_sentence = {
     "walking_button": "walk_stop"
 };
 var ros = new ROSLIB.Ros({groovyCompatibility: false});
-var control = new ROSLIB.Topic({
+var command_topic= new ROSLIB.Topic({
     ros : ros,
     name : '/jelly_gui/command',
+    messageType : 'std_msgs/String'
+});
+var crab_topic= new ROSLIB.Topic({
+    ros : ros,
+    name : '/jelly_controls/mode',
+    messageType : 'std_msgs/String'
+});
+var debug_topic = new ROSLIB.Topic({
+    ros : ros,
+    name : '/jelly_gui/status',
     messageType : 'std_msgs/String'
 });
 
@@ -76,9 +87,33 @@ $(document).ready(function() {
             command = command_to_sentence[$(this).attr("id")];
         }
     });
-
-    $(".control i").hover();
-
+    $(".crab").on("click", function() {
+        if ($(this).hasClass("button-primary")) {
+        } else {
+            $(".crab_button").removeClass("button-primary");
+            $(".crab").addClass("button-primary");
+            $("#log p").text(command_to_sentence[command]);
+        }
+        crab_command = "crab";
+    });
+    $(".normal").on("click", function() {
+        if ($(this).hasClass("button-primary")) {
+        } else {
+            $(".crab_button").removeClass("button-primary");
+            $(".normal").addClass("button-primary");
+            $("#log p").text(command_to_sentence[command]);
+        }
+        crab_command = "normal";
+    });
+    $(".reverse_crab").on("click", function() {
+        if ($(this).hasClass("button-primary")) {
+        } else {
+            $(".crab_button").removeClass("button-primary");
+            $(".reverse_crab").addClass("button-primary");
+            $("#log p").text(command_to_sentence[command]);
+        }
+        crab_command = "reverse_crab";
+    });
 
 
     // If there is an error on the backend, an 'error' emit will be emitted.
@@ -97,8 +132,11 @@ $(document).ready(function() {
     ros.connect('ws://localhost:9090');
 
     setInterval(function() {
-        var message = new ROSLIB.Message({
+        var command_message = new ROSLIB.Message({
             data : command
+        });
+        var crab_message = new ROSLIB.Message({
+            data: crab_command
         });
 
         $(".control i").on("click", function() {
@@ -106,8 +144,16 @@ $(document).ready(function() {
             console.log(command);
             $("#log p").text(command_to_sentence[command]);
         });
-        control.publish(message);
+
+        command_topic.publish(command_message);
+        crab_topic.publish(crab_message);
+
     }, 100);
+
+    debug_topic.subscribe(function(message) {
+        var element = "<p>" + message.data + "</p>";
+        $("#debug").prepend(element);
+    });
 
     // Create the main viewer.
     var viewer = new ROS3D.Viewer({
