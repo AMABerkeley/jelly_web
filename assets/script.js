@@ -112,13 +112,17 @@ $(document).ready(function() {
     // Create the main viewer.
     var viewer = new ROS3D.Viewer({
         divID : 'urdf',
+        background: '#ffffff', // white background
         width : 800,
-        height : 600,
-        antialias : true
+        height : 500,
+        antialias : true,
+        intensity: 2, // brightness of model. keep in mind the shadows.
+        displayPanAndZoomFrame : true,
+        cameraPose: {x: 1, y: 1.3, z: 0.67}
     });
 
     // Add a grid
-    viewer.addObject(new ROS3D.Grid());
+    // viewer.addObject(new ROS3D.Grid());
 
     // Setup a client to listen to TFs.
     var tfClient = new ROSLIB.TFClient({
@@ -129,16 +133,17 @@ $(document).ready(function() {
         groovyCompatability: false
     });
 
-    console.log("loader: " + ROS3D.COLLADA_LOADER_2);
-	    window.tfClient = tfClient;
+    // Position the dog a little higher.
+    viewer.scene.position.set(0, 0, 0.26);
+
     // Setup the URDF client.
     var urdfClient = new ROS3D.UrdfClient({
         ros : ros,
         tfClient : tfClient,
         // path : 'https://raw.githubusercontent.com/AMABerkeley/jelly_descriptions/master/',
-        path : 'http://localhost:8080/',
+        path : 'http://localhost:8080/jelly_descriptions/',
         rootObject : viewer.scene,
-        loader : THREE.ColladaLoader //ROS3D.COLLADA_LOADER_2
+        // loader : ROS3D.COLLADA_LOADER_2 //THREE.ColladaLoader
     });
 
 });
