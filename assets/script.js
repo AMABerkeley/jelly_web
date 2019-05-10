@@ -22,6 +22,11 @@ var command_to_sentence = {
     "walking_button": "walk_stop"
 };
 var ros = new ROSLIB.Ros({groovyCompatibility: false});
+var calibrate_topic= new ROSLIB.Topic({
+    ros : ros,
+    name : '/jelly_hardware/calibrate',
+    messageType : 'std_msgs/Bool'
+});
 var command_topic= new ROSLIB.Topic({
     ros : ros,
     name : '/jelly_gui/command',
@@ -29,7 +34,7 @@ var command_topic= new ROSLIB.Topic({
 });
 var crab_topic= new ROSLIB.Topic({
     ros : ros,
-    name : '/jelly_controls/mode',
+    name : '/jelly_control/mode',
     messageType : 'std_msgs/String'
 });
 var debug_topic = new ROSLIB.Topic({
@@ -92,7 +97,7 @@ $(document).ready(function() {
         } else {
             $(".crab_button").removeClass("button-primary");
             $(".crab").addClass("button-primary");
-            $("#log p").text(command_to_sentence[command]);
+            // $("#log p").text(command_to_sentence[command]);
         }
         crab_command = "crab";
     });
@@ -101,7 +106,7 @@ $(document).ready(function() {
         } else {
             $(".crab_button").removeClass("button-primary");
             $(".normal").addClass("button-primary");
-            $("#log p").text(command_to_sentence[command]);
+            // $("#log p").text(command_to_sentence[command]);
         }
         crab_command = "normal";
     });
@@ -110,7 +115,7 @@ $(document).ready(function() {
         } else {
             $(".crab_button").removeClass("button-primary");
             $(".reverse_crab").addClass("button-primary");
-            $("#log p").text(command_to_sentence[command]);
+            // $("#log p").text(command_to_sentence[command]);
         }
         crab_command = "reverse_crab";
     });
@@ -129,7 +134,7 @@ $(document).ready(function() {
         console.log(e);
     });
     // Create a connection to the rosbridge WebSocket server.
-    ros.connect('ws://localhost:9090');
+    ros.connect('ws://192.168.1.24:9090');
 
     setInterval(function() {
         var command_message = new ROSLIB.Message({
@@ -153,6 +158,14 @@ $(document).ready(function() {
     debug_topic.subscribe(function(message) {
         var element = "<p>" + message.data + "</p>";
         $("#debug").prepend(element);
+    });
+
+    $("#calibrate").on("click", function() {
+        $(this).addClass("button-primary");
+        var calibrate_message = new ROSLIB.Message({
+            data: true
+        });
+        calibrate_topic.publish(calibrate_message);
     });
 
     // Create the main viewer.
@@ -187,7 +200,7 @@ $(document).ready(function() {
         ros : ros,
         tfClient : tfClient,
         // path : 'https://raw.githubusercontent.com/AMABerkeley/jelly_descriptions/master/',
-        path : 'http://localhost:8080/jelly_descriptions/',
+        path : '/',
         rootObject : viewer.scene,
         // loader : ROS3D.COLLADA_LOADER_2 //THREE.ColladaLoader
     });

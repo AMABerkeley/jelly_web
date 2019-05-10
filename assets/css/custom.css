@@ -11,7 +11,10 @@ body {
 .title {
   text-align: center;
 }
-#button_row .columns{
+.button_row {
+  text-align: center;
+}
+.button_row .columns{
   text-align: center;
 }
 #rolling_button {
@@ -47,6 +50,9 @@ body {
 .reverse_crab {
   float: left;
 }
+.normal {
+  /* visibility: hidden; */
+}
 .crab {
   float: right;
 }
@@ -75,11 +81,40 @@ body {
 }
 
 #debug {
-  margin-top: 5vh;
+  /* margin-top: 5vh; */
   text-align: center;
 }
 
 #debug p {
   margin: auto;
 }
+
+#calibrate {
+  margin: 1rem auto;
+}
+
+
+.tooltip {
+  position: absolute;
+  margin: 20px 10px;
+  padding: 5px;
+  z-index: 1;
+  width: auto;
+  visibility: hidden;
+  background-color: #777;
+  text-align: center;
+  color: white;
+  font-size: 1.5rem;
+  line-height: 1.6;
+  font-weight: 400;
+  font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  border-radius: 5px;
+
+}
+
+
+i:hover .tooltip{
+  visibility: visible;
+}
+
 
