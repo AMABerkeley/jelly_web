@@ -1,19 +1,11 @@
 /**
  * @author mrdoob / http://mrdoob.com/
  * @author Mugen87 / https://github.com/Mugen87
- *
- *
- * @Modified by Jihoon Lee from ColladerLoader.js@r88
- * To support rviz compatible collada viewing.
- * See: #202 why it is forked.
- *
- * It is a fork from ColladerLoader.js in three.js. It follows three.js license.
  */
 
 THREE.ColladaLoader = function ( manager ) {
 
 	this.manager = ( manager !== undefined ) ? manager : THREE.DefaultLoadingManager;
-	console.log("1");
 
 };
 
@@ -24,11 +16,10 @@ THREE.ColladaLoader.prototype = {
 	crossOrigin: 'Anonymous',
 
 	load: function ( url, onLoad, onProgress, onError ) {
-		console.log("2");
 
 		var scope = this;
 
-		var path = THREE.Loader.prototype.extractUrlBase( url );
+		var path = scope.path === undefined ? THREE.LoaderUtils.extractUrlBase( url ) : scope.path;
 
 		var loader = new THREE.FileLoader( scope.manager );
 		loader.load( url, function ( text ) {
@@ -36,6 +27,12 @@ THREE.ColladaLoader.prototype = {
 			onLoad( scope.parse( text, path ) );
 
 		}, onProgress, onError );
+
+	},
+
+	setPath: function ( value ) {
+
+		this.path = value;
 
 	},
 
@@ -1626,11 +1623,19 @@ THREE.ColladaLoader.prototype = {
 		}
 
 		function getCamera( id ) {
-      var data = library.cameras[ id ];
- 			if ( data !== undefined ) {
- 				return getBuild( data, buildCamera );
- 			}
- 			return null;
+
+			var data = library.cameras[ id ];
+
+			if ( data !== undefined ) {
+
+				return getBuild( data, buildCamera );
+
+			}
+
+			console.warn( 'THREE.ColladaLoader: Couldn\'t find camera with ID:', id );
+
+			return null;
+
 		}
 
 		// light
@@ -1753,7 +1758,8 @@ THREE.ColladaLoader.prototype = {
 		}
 
 		function getLight( id ) {
-    	var data = library.lights[ id ];
+
+			var data = library.lights[ id ];
 
 			if ( data !== undefined ) {
 
@@ -1761,7 +1767,10 @@ THREE.ColladaLoader.prototype = {
 
 			}
 
+			console.warn( 'THREE.ColladaLoader: Couldn\'t find light with ID:', id );
+
 			return null;
+
 		}
 
 		// geometry
@@ -1776,6 +1785,9 @@ THREE.ColladaLoader.prototype = {
 			};
 
 			var mesh = getElementsByTagName( xml, 'mesh' )[ 0 ];
+
+			// the following tags inside geometry are not supported yet (see https://github.com/mrdoob/three.js/pull/12606): convex_mesh, spline, brep
+			if ( mesh === undefined ) return;
 
 			for ( var i = 0; i < mesh.childNodes.length; i ++ ) {
 
@@ -2510,7 +2522,6 @@ THREE.ColladaLoader.prototype = {
 		}
 
 		function setupKinematics() {
-			console.log("4");
 
 			var kinematicsModelId = Object.keys( library.kinematicsModels )[ 0 ];
 			var kinematicsSceneId = Object.keys( library.kinematicsScenes )[ 0 ];
@@ -3046,14 +3057,13 @@ THREE.ColladaLoader.prototype = {
 
 			for ( var i = 0, l = instanceCameras.length; i < l; i ++ ) {
 
- 				var instanceCamera = getCamera( instanceCameras[ i ] );
+				var instanceCamera = getCamera( instanceCameras[ i ] );
 
- 				if ( instanceCamera !== null ) {
+				if ( instanceCamera !== null ) {
 
- 					objects.push( instanceCamera.clone() );
+					objects.push( instanceCamera.clone() );
 
- 				}
-
+				}
 
 			}
 
@@ -3091,11 +3101,12 @@ THREE.ColladaLoader.prototype = {
 			// instance lights
 
 			for ( var i = 0, l = instanceLights.length; i < l; i ++ ) {
-        var instanceCamera = getCamera( instanceCameras[ i ] );
 
-				if ( instanceCamera !== null ) {
+				var instanceLight = getLight( instanceLights[ i ] );
 
-					objects.push( instanceCamera.clone() );
+				if ( instanceLight !== null ) {
+
+					objects.push( instanceLight.clone() );
 
 				}
 
@@ -3325,7 +3336,6 @@ THREE.ColladaLoader.prototype = {
 		}
 
 		function setupAnimations() {
-			console.log("3");
 
 			var clips = library.clips;
 
@@ -3452,16 +3462,11 @@ THREE.ColladaLoader.prototype = {
 
 		var scene = parseScene( getElementsByTagName( collada, 'scene' )[ 0 ] );
 
-    /*
-     * up_axis of some robot models in ROS world aren't properly set because
-     * rviz ignores this field. Thus, ignores Z_UP to show urdfs just like rviz.
-     * See https://github.com/ros-visualization/rviz/issues/1045 for the detail
-      if ( asset.upAxis === 'Z_UP' ) {
+		if ( asset.upAxis === 'Z_UP' ) {
 
-        scene.rotation.x = - Math.PI / 2;
+			scene.rotation.x = - Math.PI / 2;
 
-      }
-     */
+		}
 
 		scene.scale.multiplyScalar( asset.unit );
 

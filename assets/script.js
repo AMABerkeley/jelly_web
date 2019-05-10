@@ -20,7 +20,7 @@ var command_to_sentence = {
     "standing_button": "stand_stop",
     "walking_button": "walk_stop"
 };
-var ros = new ROSLIB.Ros();
+var ros = new ROSLIB.Ros({groovyCompatibility: false});
 var control = new ROSLIB.Topic({
     ros : ros,
     name : '/jelly_gui/command',
@@ -125,17 +125,20 @@ $(document).ready(function() {
         ros : ros,
         angularThres : 0.01,
         transThres : 0.01,
-        rate : 10.0
+        rate : 10.0,
+        groovyCompatability: false
     });
 
+    console.log("loader: " + ROS3D.COLLADA_LOADER_2);
+	    window.tfClient = tfClient;
     // Setup the URDF client.
     var urdfClient = new ROS3D.UrdfClient({
         ros : ros,
         tfClient : tfClient,
         // path : 'https://raw.githubusercontent.com/AMABerkeley/jelly_descriptions/master/',
-        path : 'http://localhost:8080/jelly_descriptions/',
+        path : 'http://localhost:8080/',
         rootObject : viewer.scene,
-        loader : ROS3D.COLLADA_LOADER_2
+        loader : THREE.ColladaLoader //ROS3D.COLLADA_LOADER_2
     });
 
 });

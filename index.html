@@ -7,11 +7,11 @@
         <link rel="stylesheet" type="text/css" href="./assets/css/custom.css">
         <link rel="stylesheet" type="text/css" href="./assets/css/all.min.css">
 
-        <script src="./assets/lib/roslib.min.js"></script>
+        <script src="./assets/lib/roslib.js"></script>
         <script src="./assets/lib/three.min.js"></script>
-        <script src="https://static.robotwebtools.org/ros3djs/0.18.0/ColladaLoader.js"></script>
-        <!-- <script src="./assets/lib/ColladaLoader.js"></script> -->
-        <script src="./assets/lib/ros3d.min.js"></script>
+        <!-- <script src="https://static.robotwebtools.org/ros3djs/0.18.0/ColladaLoader.js"></script> -->
+        <script src="./assets/lib/RosColladaLoader.js"></script>
+        <script src="./assets/lib/ros3d.js"></script>
         <script src="./assets/lib/STLLoader.js"></script>
         <script src="./assets/lib/jquery-3.4.1.min.js"></script>
         <script src="./assets/lib/eventemitter2.min.js"></script>
@@ -22,6 +22,8 @@
             <div class="row title">
                 <h1>jelly</h1>
             </div>
+            <div id="urdf"></div>
+            <br />
             <div class="row" id="button_row">
                 <div class="four columns">
                     <button id="rolling_button">Rolling Mode</button>
@@ -86,9 +88,6 @@
                     </span>
                 </div>
             </div>
-            <br/>
-            <div class="row title"><h2>urdf</h2></div>
-            <div id="urdf"></div>
         </div>
     </body>
 </html>
