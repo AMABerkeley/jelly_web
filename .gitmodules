@@ -1,7 +1,7 @@
 [submodule "mqtt_bridge"]
 	path = ros_workspace/src/mqtt_bridge
 	url = https://github.com/georgeman93/mqtt_bridge.git
-[submodule "mqtt_bridge"]
+[submodule "tf2_web_republisher"]
 	path = ros_workspace/src/tf2_web_republisher
 	url = https://github.com/georgeman93/tf2_web_republisher.git
 
