@@ -21,28 +21,6 @@ var command_to_sentence = {
     "standing_button": "stand_stop",
     "walking_button": "walk_stop"
 };
-var ros = new ROSLIB.Ros({groovyCompatibility: false});
-var calibrate_topic= new ROSLIB.Topic({
-    ros : ros,
-    name : '/jelly_hardware/calibrate',
-    messageType : 'std_msgs/Bool'
-});
-var command_topic= new ROSLIB.Topic({
-    ros : ros,
-    name : '/jelly_gui/command',
-    messageType : 'std_msgs/String'
-});
-var crab_topic= new ROSLIB.Topic({
-    ros : ros,
-    name : '/jelly_control/mode',
-    messageType : 'std_msgs/String'
-});
-var debug_topic = new ROSLIB.Topic({
-    ros : ros,
-    name : '/jelly_gui/status',
-    messageType : 'std_msgs/String'
-});
-
 
 $(document).ready(function() {
     $("#rolling_button").on("click", function() {
@@ -121,6 +99,34 @@ $(document).ready(function() {
     });
 
 
+    setInterval(function() {
+        var command_message = new Paho.MQTT.Message(JSON.stringify({"data": command }));//new Paho.MQTT.Message(command);
+        command_message.destinationName = "/jelly_gui/command";
+        
+        var crab_message = new Paho.MQTT.Message(JSON.stringify({"data": crab_command }));//new Paho.MQTT.Message(crab_command);
+        crab_message.destinationName = "/jelly_control/mode";
+
+        $(".control i").on("click", function() {
+            command = $(this).attr("id");
+            console.log(command);
+            $("#log p").text(command_to_sentence[command]);
+        });
+
+        mqtt.send(command_message);
+        mqtt.send(crab_message);
+
+    }, 100);
+
+
+    $("#calibrate").on("click", function() {
+        $(this).addClass("button-primary");
+        var calibrate_message = new Paho.MQTT.Message(true);
+        calibrate_message.destinationName = '/jelly_hardware/calibrate';
+        mqtt.send(calibrate_message);
+    });
+
+    var ros = new ROSLIB.Ros({groovyCompatibility: false});
+
     // If there is an error on the backend, an 'error' emit will be emitted.
     ros.on('error', function(error) {
         console.log(error);
@@ -134,39 +140,7 @@ $(document).ready(function() {
         console.log(e);
     });
     // Create a connection to the rosbridge WebSocket server.
-    ros.connect('ws://192.168.1.24:9090');
-
-    setInterval(function() {
-        var command_message = new ROSLIB.Message({
-            data : command
-        });
-        var crab_message = new ROSLIB.Message({
-            data: crab_command
-        });
-
-        $(".control i").on("click", function() {
-            command = $(this).attr("id");
-            console.log(command);
-            $("#log p").text(command_to_sentence[command]);
-        });
-
-        command_topic.publish(command_message);
-        crab_topic.publish(crab_message);
-
-    }, 100);
-
-    debug_topic.subscribe(function(message) {
-        var element = "<p>" + message.data + "</p>";
-        $("#debug").prepend(element);
-    });
-
-    $("#calibrate").on("click", function() {
-        $(this).addClass("button-primary");
-        var calibrate_message = new ROSLIB.Message({
-            data: true
-        });
-        calibrate_topic.publish(calibrate_message);
-    });
+    ros.connect('ws://10.211.55.4:9090');
 
     // Create the main viewer.
     var viewer = new ROS3D.Viewer({
@@ -180,10 +154,10 @@ $(document).ready(function() {
         cameraPose: {x: 1, y: 1.3, z: 0.67}
     });
 
-    // Add a grid
-    // viewer.addObject(new ROS3D.Grid());
+    // // Add a grid
+    viewer.addObject(new ROS3D.Grid());
 
-    // Setup a client to listen to TFs.
+    //Setup a client to listen to TFs.
     var tfClient = new ROSLIB.TFClient({
         ros : ros,
         angularThres : 0.01,
