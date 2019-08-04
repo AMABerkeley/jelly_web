@@ -1,0 +1,26 @@
+<launch>
+
+  <!-- Load hardware configuration and parameters -->
+  <param name="robot_description"
+      command="$(find xacro)/xacro '$(find jelly_descriptions)/robots/jelly.urdf.xacro'" />
+
+
+
+  <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" >
+    <arg name="max_message_size" value="Inf" />
+  </include>
+
+  <node name="tf2_web_republisher"
+    pkg="tf2_web_republisher"
+    type="tf2_web_republisher" />
+
+  <!-- mqtt_bridge args -->
+  <arg name="use_tls" default="false" />
+	
+  <node name="mqtt_bridge" pkg="mqtt_bridge" type="mqtt_bridge_node.py" output="screen">
+          <rosparam command="delete" param="" />
+          <rosparam command="load" file="$(find mqtt_bridge)/config/mqtt_params.yaml" />
+          <rosparam if="$(arg use_tls)" command="load" ns="mqtt" file="$(find mqtt_bridge)/config/tls_mqtt_params.yaml" />
+  </node>
+
+</launch>
